@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记事本</title>
+    <link rel="stylesheet" href="./css/case.css">
+</head>
+
+<body>
+    <!-- 主体区域 -->
+    <section id="app">
+        <!-- 输入框 -->
+        <header class="header">
+            <h1>记事本</h1>
+            <input placeholder="请输入事项" class="new-todo" v-model="inputValue">
+            <button class="add" @click="add()">添加事项</button>
+        </header>
+        <!-- 列表区域 -->
+        <section class="main">
+            <ul class="todo-list">
+                <li class="todo" v-for="(item,index) in todoList" :key="item.id">
+                    <div class="view">
+                        <span class="index">{{index + 1}}.</span>
+                        <label>{{item.name}}</label>
+                        <button class="destroy" @click="del(item.id)"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <!-- 统计和清空 -->
+        <footer class="footer" v-show="todoList.length > 0 ">
+            <!-- 统计 -->
+            <span class="todo-count">
+                合 计:<strong>{{todoList.length }}</strong>
+            </span>
+            <!-- 清空 -->
+            <button class="clear-completed" @click="clear">
+                清空任务
+            </button>
+        </footer>
+    </section>
+    <script src="../package/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                inputValue: '',
+                todoList: [
+                    { id: 1, name: '跑步五公里' }
+                ]
+            },
+            methods: {
+                add() {
+                    if (this.inputValue === '') {
+                        alert('事项为空,请输入');
+                        return;
+                    }
+                    this.todoList.unshift({
+                        id: +new Date(),
+                        name: this.inputValue
+                    });
+                    this.inputValue = '';
+                },
+                del(id) {
+                    this.todoList = this.todoList.filter(item => item.id !== id);
+                },
+                clear() {
+                    this.todoList = [];
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
