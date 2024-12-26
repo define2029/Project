@@ -14,7 +14,7 @@
         <!-- 输入框 -->
         <header class="header">
             <h1>记事本</h1>
-            <input placeholder="请输入事项" class="new-todo" v-model="inputValue">
+            <input placeholder="请输入事项" class="new-todo" v-model="inputValue" @keyup.enter="add()">
             <button class="add" @click="add()">添加事项</button>
         </header>
         <!-- 列表区域 -->
@@ -50,6 +50,9 @@
                 todoList: [
                     { id: 1, name: '跑步五公里' }
                 ]
+            },
+            mounted() {
+                document.querySelector('input').focus();
             },
             methods: {
                 add() {
